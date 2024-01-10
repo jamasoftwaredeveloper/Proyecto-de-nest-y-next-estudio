@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         secret:  configService.get<string>('JWT_SECRET'),// jwtConstants.secret,
         global: true,
         signOptions: { expiresIn: '1d' },
+        refreshTokenExpiresIn: '7d', // Tiempo de vida del token de renovación
       }),
       inject: [ConfigService],
     }),

@@ -5,6 +5,7 @@ import * as bcryptjs from 'bcryptjs';
 import { AuthDto } from './dto/auth.dto';
 
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -35,10 +36,10 @@ export class AuthService {
             throw new UnauthorizedException('Email or password is wrong');
         }
 
-        const payload = { email: user.email, sub: user.id, role: user.role }
-        return {
-            access_token: await this.jwtService.signAsync(payload)
-        };
+        const access_token = await this.generateAccessToken(user);
+        const refresh_token = await this.generateRefreshToken(user);
+
+        return { access_token, refresh_token };
     }
 
     async profile({ email, role }: { email: string, role: string }) {
@@ -48,4 +49,32 @@ export class AuthService {
          */
         return await this.usersService.findOneByEmail(email);
     }
+
+
+    async generateRefreshToken(user): Promise<string> {
+        // Implementa la lógica de generación de token de renovación aquí
+        const payload = { email: user.email, sub: user.id, role: user.role };
+        const refreshToken = this.jwtService.signAsync(
+            payload,
+            { expiresIn: '7d' },
+        );
+        return refreshToken;
+    }
+
+
+    async generateAccessToken(user): Promise<string> {
+        const payload = { email: user.email, sub: user.id, role: user.role };
+        return this.jwtService.signAsync(payload, { expiresIn: '1h' });
+    }
+
+    async validateRefreshToken(refreshToken: string): Promise<boolean> {
+        // Implementa la lógica de validación de token de renovación aquí
+        try {
+            this.jwtService.verify(refreshToken);
+            return true;
+        } catch (error) {
+            throw new UnauthorizedException();
+        }
+    }
+
 }
