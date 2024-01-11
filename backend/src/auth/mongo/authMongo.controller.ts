@@ -1,20 +1,21 @@
 import { Body, Controller, Post, Get, UseGuards, Req, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { RegisterDto } from './dto/register.dto';
-import { AuthDto } from './dto/auth.dto';
-import { Role } from '../common/enum/role.enum';
-import { Auth } from './decorators/auth.decorator';
+
+import { RegisterDto } from '../dto/register.dto';
+import { AuthDto } from '../dto/auth.dto';
+import { Role } from '../../common/enum/role.enum';
+import { Auth } from '../decorators/auth.decorator';
 import { ActiveUser } from 'src/common/decorators/active-user.decorator';
 import { ActiveUserInterface } from 'src/common/interfaces/active-user.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { TokenRefreshDto } from 'src/users/dto/token-refresh.dto';
+import { AuthMongoService } from './authMongo.service';
 
-@ApiTags('auth')
-@Controller('auth')
-export class AuthController {
+@ApiTags('mongo-auth')
+@Controller('mongo/auth')
+export class AuthMongoController {
 
     constructor(
-        private readonly authService: AuthService
+        private readonly authService: AuthMongoService
     ) { }
 
     @Post('register')

@@ -1,5 +1,21 @@
 version: "3.8"
 services:
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6380:6379'
+    networks:
+      - mynetwork
+    volumes:
+      - ./db/redis:/var/lib/redis
+  mongo:
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+    networks:
+      - mynetwork
+    volumes:
+      - ./db/mongo:/var/lib/mongo
   mysql:
     image: mysql:8.0
     container_name: mysql_db
@@ -10,6 +26,20 @@ services:
       MYSQL_USER: user_crud
       MYSQL_PASSWORD: root
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./db/mysql:/var/lib/mysql
     ports:
       - "3307:3306"
+  postgresDB:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db_crud
+    volumes:
+      - ./db/postgres:/var/lib/postgresql
+    ports:
+      - "5436:5432"
+networks:
+  mynetwork:
+    driver: bridge

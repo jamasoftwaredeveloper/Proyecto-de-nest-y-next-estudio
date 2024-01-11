@@ -1,22 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 import { Role } from 'src/common/enum/role.enum';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@ApiTags('users')
+@ApiTags('postgres-users')
 @ApiBearerAuth()
 @Auth(Role.Admin)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+  constructor(private readonly usersService: UsersService) { }
 
   @Get()
   findAll() {

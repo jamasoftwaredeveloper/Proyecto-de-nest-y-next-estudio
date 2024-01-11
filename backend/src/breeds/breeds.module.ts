@@ -3,7 +3,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { BreedsController } from "./breeds.controller";
 import { BreedsService } from "./breeds.service";
 import { Breed } from "./entities/breed.entity";
-import { AuthModule } from "src/auth/auth.module";
+import { AuthModule } from "src/auth/postgres/auth.module";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Breed]), AuthModule],
