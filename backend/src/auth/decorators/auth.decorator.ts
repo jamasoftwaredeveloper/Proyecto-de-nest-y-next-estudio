@@ -8,8 +8,5 @@ export function Auth(role:Role){
     return applyDecorators(
         Roles(role),
         UseGuards(AuthGuard, RolesGuard)
-
     )
-
-
 }

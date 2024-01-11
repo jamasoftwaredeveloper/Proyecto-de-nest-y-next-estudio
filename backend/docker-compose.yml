@@ -3,7 +3,7 @@ services:
   redis:
     image: 'redis:latest'
     ports:
-      - '6380:6379'
+      - '6379'
     networks:
       - mynetwork
     volumes:
@@ -11,24 +11,11 @@ services:
   mongo:
     image: 'mongo:latest'
     ports:
-      - '27017:27017'
+      - '27017'
     networks:
       - mynetwork
     volumes:
       - ./db/mongo:/var/lib/mongo
-  mysql:
-    image: mysql:8.0
-    container_name: mysql_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db_crud
-      MYSQL_USER: user_crud
-      MYSQL_PASSWORD: root
-    volumes:
-      - ./db/mysql:/var/lib/mysql
-    ports:
-      - "3307:3306"
   postgresDB:
     image: postgres:14.1-alpine
     restart: always

@@ -10,12 +10,12 @@ export class LoggerMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     // Aquí puedes usar tu servicio
     const headers = req.headers;
-    this.sessionService.create({ origin: headers.origin, method: req.method, ip: req.ip });
+   /*
+    this.sessionService.create({ origin: headers?.origin, method: req?.method, ip: req?.ip });
     if (headers?.type === "mongo") {
-      this.sessionMongoService.create({ origin: headers.origin, method: req.method, ip: req.ip });
+      this.sessionMongoService.create({ origin: headers?.origin, method: req?.method, ip: req?.ip });
     }
-    console.log('headers', headers);
-
+    */
     next();
   }
 }

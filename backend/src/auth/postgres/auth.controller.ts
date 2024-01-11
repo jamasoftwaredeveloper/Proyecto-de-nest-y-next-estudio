@@ -10,7 +10,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { TokenRefreshDto } from 'src/users/dto/token-refresh.dto';
 
 @ApiTags('postgres-auth')
-@Controller('postgres/auth')
+@Controller('auth')
 export class AuthController {
 
     constructor(

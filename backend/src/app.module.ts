@@ -15,6 +15,9 @@ import { UserModuleMongo } from './users/mongo/userMongo.module';
 import { AuthMongoModule } from './auth/mongo/authMongo.module';
 import { SessionModule } from './sesions/postgres/session.module';
 import { SessionModuleMongo } from './sesions/mongo/sessionMongo.module';
+import {  CacheModule } from '@nestjs/cache-manager';
+import { RedisOptions } from './config/db/redis.module';
+
 
 
 
@@ -35,7 +38,8 @@ import { SessionModuleMongo } from './sesions/mongo/sessionMongo.module';
     AuthMongoModule,
     TypeOrmModule,
     SessionModule,
-    SessionModuleMongo
+    SessionModuleMongo,
+    CacheModule.register( RedisOptions ),
   ],
   controllers: [],
   providers: [],

@@ -1,20 +1,33 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { Role } from 'src/common/enum/role.enum';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @ApiTags('postgres-users')
-@ApiBearerAuth()
-@Auth(Role.Admin)
+// @ApiBearerAuth()
+// @Auth(Role.Admin)
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService, @Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(): Promise<any> {
+    const key = "users";
+    const usersCache = await this.cacheManager.get(key);
+
+    if (usersCache) {
+      console.log('usersCache',usersCache);
+      return usersCache;
+    }
+    const users = await this.usersService.findAll();
+
+    console.log('users',users);
+    await this.cacheManager.set(key, users, 100000 *10); // ? Retrieve data from the cache
+    return users;
   }
 
   @Get(':id')
