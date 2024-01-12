@@ -1,11 +1,10 @@
 version: "3.8"
 services:
   redis:
+    container_name: redis
     image: 'redis:latest'
     ports:
-      - '6379'
-    networks:
-      - mynetwork
+      - '6379:6379'
     volumes:
       - ./db/redis:/var/lib/redis
   mongo:
@@ -30,3 +29,4 @@ services:
 networks:
   mynetwork:
     driver: bridge
+  redis:

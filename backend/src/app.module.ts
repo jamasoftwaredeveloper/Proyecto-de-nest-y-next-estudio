@@ -7,7 +7,7 @@ import { AuthModule } from './auth/postgres/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { MongoModule } from './config/db/mongo.module';
-// import { RedisModule } from './config/db/redis.module';
+
 import { PostgresModule } from './config/db/postgres.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './users/mongo/schemas/userMongo.schema';
@@ -27,7 +27,6 @@ import { RedisOptions } from './config/db/redis.module';
       isGlobal: true,
     }),
     MongoModule,
-    // RedisModule,
     PostgresModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     // CatsModule,
@@ -39,7 +38,7 @@ import { RedisOptions } from './config/db/redis.module';
     TypeOrmModule,
     SessionModule,
     SessionModuleMongo,
-    CacheModule.register( RedisOptions ),
+    CacheModule.registerAsync( RedisOptions ),
   ],
   controllers: [],
   providers: [],
