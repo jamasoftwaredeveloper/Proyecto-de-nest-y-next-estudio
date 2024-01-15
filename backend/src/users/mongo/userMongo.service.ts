@@ -11,31 +11,31 @@ export class UserMongoService {
 
   async create(userDto: any): Promise<User> {
     const createdUser = new this.userModel(userDto);
-    return createdUser.save();
+    return await createdUser.save();
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return await this.userModel.find().exec();
   }
 
   async findOne(id: string): Promise<User | null> {
-    return this.userModel.findById(id).exec();
+    return await this.userModel.findById(id).exec();
   }
 
   async update(id: string, userDto: any): Promise<User | null> {
-    return this.userModel.findByIdAndUpdate(id, userDto, { new: true }).exec();
+    return await this.userModel.findByIdAndUpdate(id, userDto, { new: true }).exec();
   }
 
   async remove(id: string): Promise<User | null> {
-    return this.userModel.findByIdAndDelete(id).exec();
+    return await this.userModel.findByIdAndDelete(id).exec();
   }
 
   async findOneByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec();
+    return await this.userModel.findOne({ email }).exec();
 
   }
 
   async findOneByEmailWithPassword(email: string) {
-    return this.userModel.findOne({ email }).select('id name email password role').exec();
+    return  await this.userModel.findOne({ email }).select('id name email password role type').exec();
   }
 }

@@ -15,10 +15,13 @@ export class User extends Document {
     @Prop()
     password: string;
 
-    @Prop({ type: String, enum: Role, default:Role.Admin })
+    @Prop({ type: String, enum: Role, default: Role.Admin })
     role: Role;
-  
-    @Prop({ type: Date, default:null })
+
+    @Prop({ default: "web" })
+    type: string;
+
+    @Prop({ type: Date, default: null })
     deletedAt: Date;
 }
 
